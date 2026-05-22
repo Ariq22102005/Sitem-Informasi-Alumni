@@ -13,11 +13,17 @@ class SettingsController extends Controller
         $this->middleware('auth');
     }
 
+    /**
+     * Halaman settings
+     */
     public function index()
     {
         return view('admin.settings');
     }
 
+    /**
+     * Update profile user
+     */
     public function updateProfile(Request $request)
     {
         $request->validate([
@@ -25,15 +31,21 @@ class SettingsController extends Controller
             'email' => 'required|email|unique:users,email,' . Auth::id(),
         ]);
 
-        Auth::user()->update([
+        $user = Auth::user();
+
+        $user->update([
             'name'  => $request->name,
             'email' => $request->email,
         ]);
 
-        return redirect()->route('admin.settings')
-                         ->with('success', 'Profil berhasil diperbarui!');
+        return redirect()
+            ->route('admin.settings')
+            ->with('success', 'Profil berhasil diperbarui!');
     }
 
+    /**
+     * Update password
+     */
     public function updatePassword(Request $request)
     {
         $request->validate([
@@ -41,19 +53,26 @@ class SettingsController extends Controller
             'password'         => 'required|string|min:8|confirmed',
         ]);
 
+        // cek password lama
         if (!Hash::check($request->current_password, Auth::user()->password)) {
-            return redirect()->back()
-                             ->withErrors(['current_password' => 'Password lama tidak sesuai.']);
+            return back()->withErrors([
+                'current_password' => 'Password lama tidak sesuai.',
+            ]);
         }
 
+        // update password baru
         Auth::user()->update([
             'password' => Hash::make($request->password),
         ]);
 
-        return redirect()->route('admin.settings')
-                         ->with('success', 'Password berhasil diubah!');
+        return redirect()
+            ->route('admin.settings')
+            ->with('success', 'Password berhasil diubah!');
     }
 
+    /**
+     * Update pengaturan website
+     */
     public function updateWebsite(Request $request)
     {
         $request->validate([
@@ -64,9 +83,11 @@ class SettingsController extends Controller
             'address'          => 'nullable|string',
         ]);
 
-        // Simpan ke tabel settings atau config
-        // Sesuaikan jika ada model Settings
-        return redirect()->route('admin.settings')
-                         ->with('success', 'Pengaturan website berhasil disimpan!');
+        // sementara dummy success
+        // nanti bisa disimpan ke tabel settings
+
+        return redirect()
+            ->route('admin.settings')
+            ->with('success', 'Pengaturan website berhasil disimpan!');
     }
 }

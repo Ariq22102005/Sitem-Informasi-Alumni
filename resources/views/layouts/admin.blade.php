@@ -1,135 +1,113 @@
-@extends('layouts.admin')
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title') - Admin Panel</title>
 
-@section('title', 'Data Alumni')
-@section('page-title', 'Data Alumni')
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-@section('content')
-<div class="page-header d-flex align-items-center justify-content-between">
-    <div>
-        <h1>Data Alumni</h1>
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                <li class="breadcrumb-item active">Data Alumni</li>
-            </ol>
-        </nav>
-    </div>
-    <a href="{{ route('admin.alumni.create') }}" class="btn btn-primary btn-sm px-3">
-        <i class="fas fa-plus me-1"></i> Tambah Alumni
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        body {
+            background-color: #f5f6fa;
+        }
+
+        .sidebar {
+            width: 250px;
+            min-height: 100vh;
+            background: #1e293b;
+            color: white;
+            position: fixed;
+        }
+
+        .sidebar a {
+            color: #cbd5e1;
+            text-decoration: none;
+            display: block;
+            padding: 12px 20px;
+        }
+
+        .sidebar a:hover {
+            background: #334155;
+            color: white;
+        }
+
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        .navbar-custom {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            border: none;
+            border-radius: 12px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <h4 class="p-3">Admin Panel</h4>
+
+    <a href="{{ route('admin.dashboard') }}">
+        <i class="fas fa-home me-2"></i> Dashboard
+    </a>
+
+    <a href="{{ route('admin.alumni.index') }}">
+        <i class="fas fa-user-graduate me-2"></i> Alumni
+    </a>
+
+    <a href="{{ route('admin.news.index') }}">
+        <i class="fas fa-newspaper me-2"></i> News
+    </a>
+
+    <a href="{{ route('admin.lowongan.index') }}">
+        <i class="fas fa-briefcase me-2"></i> Lowongan
+    </a>
+
+    <a href="{{ route('admin.galeri.index') }}">
+        <i class="fas fa-image me-2"></i> Galeri
+    </a>
+
+    <a href="{{ route('admin.pengumuman.index') }}">
+        <i class="fas fa-bullhorn me-2"></i> Pengumuman
+    </a>
+
+    <a href="{{ route('admin.settings') }}">
+        <i class="fas fa-cog me-2"></i> Settings
     </a>
 </div>
 
-{{-- FILTER --}}
-<div class="card mb-3">
-    <div class="card-body py-3">
-        <form action="{{ route('admin.alumni.index') }}" method="GET" class="row g-2 align-items-end">
-            <div class="col-md-4">
-                <input type="text" name="search" class="form-control form-control-sm" placeholder="Cari nama / NIM..." value="{{ request('search') }}">
-            </div>
-            <div class="col-md-3">
-                <select name="angkatan" class="form-select form-select-sm">
-                    <option value="">Semua Angkatan</option>
-                    @for($y = date('Y'); $y >= 2000; $y--)
-                        <option value="{{ $y }}" {{ request('angkatan') == $y ? 'selected' : '' }}>{{ $y }}</option>
-                    @endfor
-                </select>
-            </div>
-            <div class="col-md-3">
-                <select name="status_kerja" class="form-select form-select-sm">
-                    <option value="">Semua Status</option>
-                    <option value="bekerja" {{ request('status_kerja') === 'bekerja' ? 'selected' : '' }}>Bekerja</option>
-                    <option value="wirausaha" {{ request('status_kerja') === 'wirausaha' ? 'selected' : '' }}>Wirausaha</option>
-                    <option value="melanjutkan_studi" {{ request('status_kerja') === 'melanjutkan_studi' ? 'selected' : '' }}>Melanjutkan Studi</option>
-                    <option value="belum_bekerja" {{ request('status_kerja') === 'belum_bekerja' ? 'selected' : '' }}>Belum Bekerja</option>
-                </select>
-            </div>
-            <div class="col-md-2 d-flex gap-1">
-                <button type="submit" class="btn btn-primary btn-sm flex-fill">
-                    <i class="fas fa-search"></i>
-                </button>
-                <a href="{{ route('admin.alumni.index') }}" class="btn btn-outline-secondary btn-sm flex-fill">
-                    <i class="fas fa-times"></i>
-                </a>
-            </div>
-        </form>
+<div class="content">
+
+    <div class="navbar-custom d-flex justify-content-between align-items-center">
+        <h4 class="mb-0">@yield('page-title')</h4>
+
+        <div>
+            {{ auth()->user()->name ?? 'Admin' }}
+        </div>
     </div>
+
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @yield('content')
+
 </div>
 
-{{-- TABLE --}}
-<div class="card">
-    <div class="card-header bg-white py-3 d-flex align-items-center justify-content-between">
-        <span class="fw-semibold"><i class="fas fa-user-graduate me-2 text-primary"></i>Daftar Alumni</span>
-        <span class="badge bg-secondary">{{ $alumni->total() ?? 0 }} data</span>
-    </div>
-    <div class="table-responsive">
-        <table class="table table-hover mb-0">
-            <thead>
-                <tr>
-                    <th width="40">#</th>
-                    <th>Nama</th>
-                    <th>NIM</th>
-                    <th>Angkatan</th>
-                    <th>Program Studi</th>
-                    <th>Status Kerja</th>
-                    <th>No. HP</th>
-                    <th class="text-center">Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($alumni as $i => $a)
-                <tr>
-                    <td class="text-muted">{{ $alumni->firstItem() + $i }}</td>
-                    <td>
-                        <div class="d-flex align-items-center gap-2">
-                            <div style="width:32px;height:32px;border-radius:50%;background:#4f46e5;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex-shrink:0;">
-                                {{ strtoupper(substr($a->nama, 0, 1)) }}
-                            </div>
-                            <div>
-                                <div class="fw-semibold" style="font-size:.88rem;">{{ $a->nama }}</div>
-                                <div class="text-muted" style="font-size:.75rem;">{{ $a->email }}</div>
-                            </div>
-                        </div>
-                    </td>
-                    <td style="font-size:.85rem;">{{ $a->nim }}</td>
-                    <td>{{ $a->angkatan }}</td>
-                    <td style="font-size:.85rem;">{{ $a->program_studi }}</td>
-                    <td>
-                        @php $statusMap = ['bekerja'=>'success','wirausaha'=>'info','melanjutkan_studi'=>'primary','belum_bekerja'=>'warning']; @endphp
-                        <span class="badge bg-{{ $statusMap[$a->status_kerja ?? ''] ?? 'secondary' }}">
-                            {{ ucwords(str_replace('_', ' ', $a->status_kerja ?? 'Belum diisi')) }}
-                        </span>
-                    </td>
-                    <td style="font-size:.85rem;">{{ $a->no_hp ?? '-' }}</td>
-                    <td class="text-center">
-                        <a href="{{ route('admin.alumni.show', $a) }}" class="btn btn-sm btn-outline-info py-0 px-2" title="Detail">
-                            <i class="fas fa-eye"></i>
-                        </a>
-                        <a href="{{ route('admin.alumni.edit', $a) }}" class="btn btn-sm btn-outline-warning py-0 px-2" title="Edit">
-                            <i class="fas fa-edit"></i>
-                        </a>
-                        <form action="{{ route('admin.alumni.destroy', $a) }}" method="POST" class="d-inline" onsubmit="return confirm('Hapus alumni ini?')">
-                            @csrf @method('DELETE')
-                            <button class="btn btn-sm btn-outline-danger py-0 px-2" title="Hapus">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="8" class="text-center text-muted py-5">
-                        <i class="fas fa-user-slash fa-2x mb-2 d-block"></i>
-                        Belum ada data alumni
-                    </td>
-                </tr>
-                @endforelse
-            </tbody>
-        </table>
-    </div>
-    @if(isset($alumni) && $alumni->hasPages())
-    <div class="card-footer bg-white">
-        {{ $alumni->withQueryString()->links() }}
-    </div>
-    @endif
-</div>
-@endsection
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
