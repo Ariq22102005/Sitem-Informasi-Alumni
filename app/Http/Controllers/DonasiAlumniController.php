@@ -93,12 +93,8 @@ class DonasiAlumniController extends Controller
             'catatan'       => $request->catatan,
         ]);
 
-        // Mengembalikan respon sukses berformat JSON dengan HTTP Status Code 200 OK
-        return response()->json([
-            'status'  => 'success',
-            'message' => 'Data donasi berhasil diperbarui!',
-            'data'    => $donasi
-        ], 200);
+        return redirect()->route('admin.donasi.edit', $donasi->id)
+            ->with('success', 'Data donasi berhasil diperbarui!');
     }
 
     /**

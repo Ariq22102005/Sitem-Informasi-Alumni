@@ -46,6 +46,7 @@ Route::resource('angkatan', AngkatanController::class)
     ->middleware(['auth', EnsureAdmin::class]);
 
 Route::get('/donasi', [DonasiAlumniController::class, 'index'])->name('donasi.index');
+Route::post('/donasi', [DonasiAlumniController::class, 'edit'])->name('donasi.store');
 
 Route::prefix('lowongan-kerja')->name('lowongan.')->group(function () {
     Route::get('/', [LowonganKerjaController::class, 'index'])->name('index');
