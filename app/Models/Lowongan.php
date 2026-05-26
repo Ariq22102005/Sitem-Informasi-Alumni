@@ -2,9 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,9 +12,6 @@ class Lowongan extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'posisi', 'perusahaan', 'tipe', 'lokasi', 'gaji',
-        'batas_lamar', 'link_lamar', 'kontak',
-        'deskripsi', 'kualifikasi', 'status',
         'posisi',
         'perusahaan',
         'tipe',
@@ -35,11 +29,6 @@ class Lowongan extends Model
         'batas_lamar' => 'date',
     ];
 
-    public function scopeAktif($query)
-    {
-        return $query->where('status', 'aktif');
-    }
-}
     public const TIPE_OPTIONS = [
         'full_time' => 'Full Time',
         'part_time' => 'Part Time',

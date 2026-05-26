@@ -9,6 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         // ── TABLE ALUMNI ────────────────────────────────────────────
+        if (! Schema::hasTable('alumni')) {
         Schema::create('alumni', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
@@ -25,8 +26,10 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+        }
 
         // ── TABLE LOWONGAN ──────────────────────────────────────────
+        if (! Schema::hasTable('lowongans')) {
         Schema::create('lowongans', function (Blueprint $table) {
             $table->id();
             $table->string('posisi');
@@ -43,8 +46,10 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+        }
 
         // ── TABLE TRACER STUDY ──────────────────────────────────────
+        if (! Schema::hasTable('tracer_studies')) {
         Schema::create('tracer_studies', function (Blueprint $table) {
             $table->id();
             $table->foreignId('alumni_id')->nullable()->constrained('alumni')->nullOnDelete();
@@ -60,8 +65,10 @@ return new class extends Migration
             $table->text('komentar')->nullable();
             $table->timestamps();
         });
+        }
 
         // ── TABLE GALERI ────────────────────────────────────────────
+        if (! Schema::hasTable('galeris')) {
         Schema::create('galeris', function (Blueprint $table) {
             $table->id();
             $table->string('judul');
@@ -70,8 +77,10 @@ return new class extends Migration
             $table->text('keterangan')->nullable();
             $table->timestamps();
         });
+        }
 
         // ── TABLE PENGUMUMAN ────────────────────────────────────────
+        if (! Schema::hasTable('pengumumans')) {
         Schema::create('pengumumans', function (Blueprint $table) {
             $table->id();
             $table->string('judul');
@@ -82,6 +91,7 @@ return new class extends Migration
             $table->enum('status', ['aktif', 'nonaktif'])->default('aktif');
             $table->timestamps();
         });
+        }
     }
 
     public function down(): void

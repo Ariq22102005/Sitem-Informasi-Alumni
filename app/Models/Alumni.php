@@ -2,22 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Alumni extends Model
-{
-    protected $fillable = [
-        'nama',
-        'nim',
-        'jurusan',
-        'angkatan',
-        'tahun_lulus',
-        'email',
-        'pekerjaan',
-        'alamat'
-    ];
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Alumni extends Model
 {
