@@ -444,6 +444,106 @@
             border-color: var(--red-soft);
         }
 
+        .btn-edit {
+            padding: 6px 14px;
+            background: var(--teal-pale);
+            color: var(--teal);
+            border: 1px solid rgba(42,127,111,0.2);
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-right: 6px;
+        }
+
+        .btn-edit:hover {
+            background: var(--teal);
+            color: #fff;
+            border-color: var(--teal);
+        }
+
+        /* Modal Edit */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(26,26,46,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.show { display: flex; }
+
+        .modal-box {
+            background: var(--warm-white);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 460px;
+            margin: 20px;
+            box-shadow: 0 16px 48px rgba(26,26,46,0.2);
+            overflow: hidden;
+            animation: modalIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes modalIn {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--teal) 0%, var(--teal-light) 100%);
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-header h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .modal-close {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: #fff;
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .modal-close:hover { background: rgba(255,255,255,0.35); }
+
+        .modal-body { padding: 24px; }
+
+        .btn-update {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--teal) 0%, var(--teal-light) 100%);
+            color: #fff;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.25s;
+            box-shadow: 0 4px 16px rgba(42,127,111,0.35);
+        }
+
+        .btn-update:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(42,127,111,0.45);
+        }
+
         .empty-state {
             text-align: center;
             padding: 60px 20px;
@@ -830,6 +930,38 @@
     <footer>
         <footer>Dibuat dengan <span>♥</span> oleh Mellinna Husadya · G1F024006</footer>
 
+    <!-- Modal Edit -->
+    <div class="modal-overlay" id="modalEdit">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3>✏️ Edit Data Donasi</h3>
+                <button class="modal-close" id="modalClose">✕</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="edit_id">
+                <div class="field">
+                    <label>Nama Donatur</label>
+                    <input type="text" id="edit_nama_donatur" placeholder="Nama lengkap / Anonim">
+                </div>
+                <div class="field">
+                    <label>Program Studi</label>
+                    <input type="text" id="edit_program_studi" placeholder="Contoh: Sistem Informasi">
+                </div>
+                <div class="field">
+                    <label>Jumlah Donasi (Rp)</label>
+                    <input type="number" id="edit_jumlah_donasi" placeholder="Contoh: 500000">
+                </div>
+                <div class="field">
+                    <label>Catatan / Pesan</label>
+                    <textarea id="edit_catatan" placeholder="Pesan opsional dari alumni..."></textarea>
+                </div>
+                <button class="btn-update" id="btnUpdate">
+                    <span>💾</span> Update via API
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Toast -->
     <div class="toast" id="toast"></div>
 
@@ -886,6 +1018,7 @@
                                     <td class="td-amount">${formatRupiah(item.jumlah_donasi)}</td>
                                     <td class="td-catatan">${item.catatan || '—'}</td>
                                     <td style="text-align:center">
+                                        <button class="btn-edit" data-id="${item.id}" data-nama="${item.nama_donatur}" data-prodi="${item.program_studi}" data-jumlah="${item.jumlah_donasi}" data-catatan="${item.catatan || ''}">Edit</button>
                                         <button class="btn-delete" data-id="${item.id}">Hapus</button>
                                     </td>
                                 </tr>`;
@@ -952,6 +1085,56 @@
                         }
                     });
                 }
+            });
+            // FUNCTION 4: EDIT - Buka Modal
+            $('#donasiTable').on('click', '.btn-edit', function () {
+                const btn = $(this);
+                $('#edit_id').val(btn.data('id'));
+                $('#edit_nama_donatur').val(btn.data('nama'));
+                $('#edit_program_studi').val(btn.data('prodi'));
+                $('#edit_jumlah_donasi').val(btn.data('jumlah'));
+                $('#edit_catatan').val(btn.data('catatan'));
+                $('#modalEdit').addClass('show');
+            });
+
+            // Tutup Modal
+            $('#modalClose, #modalEdit').on('click', function (e) {
+                if (e.target === this) $('#modalEdit').removeClass('show');
+            });
+
+            // FUNCTION 4: PUT - Simpan Update
+            $('#btnUpdate').on('click', function () {
+                const id = $('#edit_id').val();
+                const updateData = {
+                    nama_donatur: $('#edit_nama_donatur').val(),
+                    program_studi: $('#edit_program_studi').val(),
+                    jumlah_donasi: $('#edit_jumlah_donasi').val(),
+                    catatan: $('#edit_catatan').val()
+                };
+                $.ajax({
+                    url: `${apiUrl}/${id}`,
+                    type: 'PUT',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: JSON.stringify(updateData),
+                    success: function (response) {
+                        showToast(response.message || 'Data berhasil diperbarui!');
+                        $('#modalEdit').removeClass('show');
+                        loadDonasi();
+                    },
+                    error: function (err) {
+                        if (err.status === 422) {
+                            const errors = err.responseJSON.errors;
+                            const msg = Object.values(errors).map(e => e[0]).join(', ');
+                            showToast('Validasi gagal: ' + msg, 'error');
+                        } else {
+                            showToast('Gagal memperbarui data (Status: ' + err.status + ')', 'error');
+                        }
+                    }
+                });
             });
         });
     </script>
