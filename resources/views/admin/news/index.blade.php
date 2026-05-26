@@ -1,7 +1,11 @@
-@extends('layouts.app')
+@extends('layouts.admin')
+
+@section('title', 'Kelola Berita')
+@section('page-title', 'Berita')
+@section('page-subtitle', 'Kelola konten berita untuk halaman publik.')
 
 @section('content')
-<div class="container-fluid py-5">
+<div class="container-fluid py-3">
     <!-- Hero Section -->
     <div class="row mb-5">
         <div class="col-md-12">
@@ -26,11 +30,13 @@
         <div class="col-md-12">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <form action="{{ route('news.index') }}" method="GET" class="row g-3">
+                    <form action="{{ route('admin.news.index') }}" method="GET" class="row g-3 align-items-end">
                         <div class="col-md-6">
-                            <input type="text" name="search" class="form-control" placeholder="Cari berita..." value="{{ request('search') }}">
+                            <label class="form-label small text-muted">Kata kunci</label>
+                            <input type="text" name="search" class="form-control" placeholder="Cari judul / konten..." value="{{ request('search') }}">
                         </div>
                         <div class="col-md-4">
+                            <label class="form-label small text-muted">Kategori</label>
                             <select name="category" class="form-select">
                                 <option value="">Semua Kategori</option>
                                 <option value="Alumni" {{ request('category') === 'Alumni' ? 'selected' : '' }}>Alumni</option>
@@ -41,10 +47,13 @@
                                 <option value="Lainnya" {{ request('category') === 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
                             </select>
                         </div>
-                        <div class="col-md-2">
-                            <button type="submit" class="btn btn-primary w-100">
-                                <i class="fas fa-search"></i> Cari
+                        <div class="col-md-2 d-flex gap-2">
+                            <button type="submit" class="btn btn-primary flex-fill">
+                                <i class="fas fa-search"></i>
                             </button>
+                            <a href="{{ route('admin.news.index') }}" class="btn btn-outline-secondary flex-fill">
+                                <i class="fas fa-times"></i>
+                            </a>
                         </div>
                     </form>
                 </div>
@@ -114,9 +123,14 @@
 
                     <!-- Card Footer -->
                     <div class="card-footer bg-white border-top">
-                        <a href="{{ route('news.show', $item) }}" class="btn btn-sm btn-primary w-100">
-                            <i class="fas fa-arrow-right"></i> Baca Selengkapnya
-                        </a>
+                        <div class="d-flex gap-2">
+                            <a href="{{ route('news.show', $item) }}" class="btn btn-sm btn-outline-primary flex-fill">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="{{ route('admin.news.edit', $item) }}" class="btn btn-sm btn-outline-warning flex-fill">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

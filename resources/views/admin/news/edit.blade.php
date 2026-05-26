@@ -1,7 +1,10 @@
-@extends('layouts.app')
+@extends('layouts.admin')
+
+@section('title', 'Edit Berita')
+@section('page-title', 'Edit Berita')
 
 @section('content')
-<div class="container py-5">
+<div class="container py-3">
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="card shadow-lg border-0">
@@ -25,7 +28,7 @@
                         </div>
                     @endif
 
-                    <form action="{{ route('news.update', $news) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('admin.news.update', $news) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
 
@@ -148,7 +151,7 @@
                             <button type="submit" class="btn btn-lg btn-secondary">
                                 <i class="fas fa-save"></i> Simpan sebagai Draft
                             </button>
-                            <a href="{{ route('news.show', $news) }}" class="btn btn-lg btn-outline-secondary">
+                            <a href="{{ route('admin.news.index') }}" class="btn btn-lg btn-outline-secondary">
                                 <i class="fas fa-times"></i> Batal
                             </a>
                         </div>
