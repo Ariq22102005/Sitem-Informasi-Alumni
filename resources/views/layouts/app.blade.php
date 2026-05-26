@@ -33,6 +33,9 @@
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('lowongan.*') ? 'active fw-semibold' : '' }}" href="{{ route('lowongan.index') }}">Lowongan</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('angkatan.*') ? 'active fw-semibold' : '' }}" href="{{ route('angkatan.index') }}">Angkatan</a>
+                        </li>
                     </ul>
 
                     <ul class="navbar-nav ms-auto">
