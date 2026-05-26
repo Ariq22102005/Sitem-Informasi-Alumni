@@ -34,8 +34,30 @@
                             <a class="nav-link {{ request()->routeIs('lowongan.*') ? 'active fw-semibold' : '' }}" href="{{ route('lowongan.index') }}">Lowongan</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('alumni.*') ? 'active fw-semibold' : '' }}" href="{{ route('alumni.index') }}">Alumni</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('angkatan.*') ? 'active fw-semibold' : '' }}" href="{{ route('angkatan.index') }}">Angkatan</a>
                         </li>
+
+                        @auth
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle {{ request()->is('admin/*') ? 'active fw-semibold' : '' }}" href="#" role="button" data-bs-toggle="dropdown">Admin</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}">Dashboard</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{{ route('admin.news.index') }}">Kelola Berita</a></li>
+                                <li><a class="dropdown-item" href="{{ route('admin.alumni.index') }}">Kelola Alumni</a></li>
+                                <li><a class="dropdown-item" href="{{ route('admin.lowongan.index') }}">Kelola Lowongan</a></li>
+                                <li><a class="dropdown-item" href="{{ route('admin.galeri.index') }}">Kelola Galeri</a></li>
+                                <li><a class="dropdown-item" href="{{ route('admin.pengumuman.index') }}">Pengumuman</a></li>
+                                <li><a class="dropdown-item" href="{{ route('admin.tracer.index') }}">Tracer Study</a></li>
+                                <li><a class="dropdown-item" href="{{ route('admin.users.index') }}">Kelola Users</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{{ route('admin.settings') }}">Settings</a></li>
+                            </ul>
+                        </li>
+                        @endauth
                     </ul>
 
                     <ul class="navbar-nav ms-auto">
