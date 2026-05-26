@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\LowonganController as AdminLowonganController;
 use App\Http\Controllers\LowonganKerjaController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AlumniController;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\NewsController;
@@ -71,6 +72,7 @@ Route::prefix('lowongan-kerja')->name('lowongan.')->group(function () {
     Route::get('/{lowongan}', [LowonganKerjaController::class, 'show'])->name('show');
 });
 
+Route::resource('alumni', AlumniController::class);
 /*
 |--------------------------------------------------------------------------
 | Lowongan Kerja — Sisi Admin / Perusahaan
