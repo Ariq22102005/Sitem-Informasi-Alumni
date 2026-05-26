@@ -1,313 +1,86 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
+@section('title', 'Alumni')
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Dashboard Alumni</title>
-
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Font Poppins -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <style>
-
-        body{
-            background: #f4f7f4;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .navbar-custom{
-            background: #6b8f71;
-            padding: 18px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-        }
-
-        .navbar-title{
-            color: white;
-            font-size: 28px;
-            font-weight: 600;
-            margin: 0;
-        }
-
-        .dashboard-card{
-            background: white;
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 5px 18px rgba(0,0,0,0.06);
-            border: none;
-        }
-
-        .stats-card{
-            background: linear-gradient(
-                135deg,
-                #7a9e7e,
-                #5f7d63
-            );
-
-            color: white;
-
-            border-radius: 20px;
-
-            padding: 25px;
-
-            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-        }
-
-        .stats-number{
-            font-size: 40px;
-            font-weight: 700;
-        }
-
-        .table{
-            vertical-align: middle;
-        }
-
-        .table thead{
-            background: #d8e3d5;
-        }
-
-        .table thead th{
-            color: #4f6b52;
-            font-weight: 600;
-            border: none;
-        }
-
-        .table tbody tr{
-            transition: 0.2s;
-        }
-
-        .table tbody tr:hover{
-            background: #f0f5ef;
-        }
-
-        .btn-sage{
-            background: #6b8f71;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            padding: 10px 18px;
-            font-weight: 500;
-        }
-
-        .btn-sage:hover{
-            background: #58745d;
-            color: white;
-        }
-
-        .btn-detail{
-            background: #6b8f71;
-            color: white;
-            border-radius: 8px;
-            border: none;
-        }
-
-        .btn-detail:hover{
-            background: #55705a;
-            color: white;
-        }
-
-        .btn-edit{
-            border-radius: 8px;
-        }
-
-        .btn-delete{
-            border-radius: 8px;
-        }
-
-        .page-title{
-            font-size: 30px;
-            font-weight: 700;
-            color: #4f6b52;
-        }
-
-        .subtitle{
-            color: #7c8b7d;
-            margin-top: -5px;
-        }
-
-    </style>
-
-</head>
-
-<body>
-
-    <!-- Navbar -->
-
-    <div class="navbar-custom">
-
-        <div class="container">
-
-            <h2 class="navbar-title">
-                Sistem Informasi Alumni
-            </h2>
-
-        </div>
-
+@section('content')
+<div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+    <div>
+        <h1 class="h4 fw-bold mb-1">Data Alumni</h1>
+        <p class="text-muted mb-0">Kelola data alumni universitas</p>
     </div>
+    <a href="/alumni/create" class="btn btn-primary">
+        <i class="fas fa-plus me-1"></i> Tambah Alumni
+    </a>
+</div>
 
-    <!-- Content -->
-
-    <div class="container mt-5">
-
-        <!-- Header -->
-
-        <div class="d-flex justify-content-between align-items-center mb-4">
-
-            <div>
-
-                <h1 class="page-title">
-                    Dashboard Alumni
-                </h1>
-
-                <p class="subtitle">
-                    Data dan informasi alumni universitas
-                </p>
-
+<div class="row g-3 mb-3">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="text-muted small mb-1">Total Alumni</div>
+                <div class="fs-3 fw-bold">{{ $alumnis->count() }}</div>
             </div>
-
-            <a href="/alumni/create"
-               class="btn btn-sage">
-
-               + Tambah Alumni
-
-            </a>
-
         </div>
+    </div>
+</div>
 
-        <!-- Statistik -->
+@if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
 
-        <div class="row mb-4">
-
-            <div class="col-md-4">
-
-                <div class="stats-card">
-
-                    <p>Total Alumni</p>
-
-                    <h1 class="stats-number">
-                        {{ $alumnis->count() }}
-                    </h1>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- Alert -->
-
-        @if(session('success'))
-
-            <div class="alert alert-success rounded-4 border-0 shadow-sm">
-                {{ session('success') }}
-            </div>
-
-        @endif
-
-        <!-- Table -->
-
-        <div class="dashboard-card">
-
-            <table class="table">
-
-                <thead>
-
+<div class="card">
+    <div class="table-responsive">
+        <table class="table table-hover mb-0 align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th style="width: 70px;">No</th>
+                    <th>Nama</th>
+                    <th>NIM</th>
+                    <th>Jurusan</th>
+                    <th>Angkatan</th>
+                    <th>Tahun Lulus</th>
+                    <th class="text-center" style="width: 220px;">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($alumnis as $alumni)
                     <tr>
-
-                        <th>No</th>
-                        <th>Nama</th>
-                        <th>NIM</th>
-                        <th>Jurusan</th>
-                        <th>Angkatan</th>
-                        <th>Tahun Lulus</th>
-                        <th>Aksi</th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody>
-
-                    @forelse($alumnis as $alumni)
-
-                    <tr>
-
-                        <td>{{ $loop->iteration }}</td>
-
-                        <td>
-                            <strong>{{ $alumni->nama }}</strong>
-                        </td>
-
+                        <td class="text-muted">{{ $loop->iteration }}</td>
+                        <td class="fw-semibold">{{ $alumni->nama }}</td>
                         <td>{{ $alumni->nim }}</td>
-
                         <td>{{ $alumni->jurusan }}</td>
-
                         <td>{{ $alumni->angkatan }}</td>
-
                         <td>{{ $alumni->tahun_lulus }}</td>
-
-                        <td>
-
-                            <a href="/alumni/{{ $alumni->id }}"
-                               class="btn btn-detail btn-sm">
-                               Detail
+                        <td class="text-center text-nowrap">
+                            <a href="/alumni/{{ $alumni->id }}" class="btn btn-sm btn-outline-primary" title="Detail">
+                                <i class="fas fa-eye"></i>
                             </a>
-
-                            <a href="/alumni/{{ $alumni->id }}/edit"
-                               class="btn btn-warning btn-sm text-white btn-edit">
-                               Edit
+                            <a href="/alumni/{{ $alumni->id }}/edit" class="btn btn-sm btn-outline-warning" title="Edit">
+                                <i class="fas fa-edit"></i>
                             </a>
-
-                            <form
-                                action="/alumni/{{ $alumni->id }}"
-                                method="POST"
-                                class="d-inline"
-                            >
-
+                            <form action="/alumni/{{ $alumni->id }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus data alumni ini?')">
                                 @csrf
                                 @method('DELETE')
-
-                                <button
-                                    type="submit"
-                                    class="btn btn-danger btn-sm btn-delete"
-                                    onclick="return confirm('Yakin ingin menghapus data alumni ini?')"
-                                >
-                                    Delete
+                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus">
+                                    <i class="fas fa-trash"></i>
                                 </button>
-
                             </form>
-
                         </td>
-
                     </tr>
-
-                    @empty
-
+                @empty
                     <tr>
-
-                        <td colspan="7" class="text-center text-muted py-4">
-
+                        <td colspan="7" class="text-center text-muted py-5">
+                            <i class="fas fa-inbox fa-2x mb-2 d-block"></i>
                             Belum ada data alumni
-
                         </td>
-
                     </tr>
-
-                    @endforelse
-
-                </tbody>
-
-            </table>
-
-        </div>
-
+                @endforelse
+            </tbody>
+        </table>
     </div>
+</div>
+@endsection
 
-</body>
-
-</html>

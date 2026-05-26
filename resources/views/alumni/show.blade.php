@@ -1,80 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Detail Alumni</title>
+@extends('layouts.app')
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
+@section('title', 'Detail Alumni')
 
-<body style="background-color: #f5f7fa;">
-
-<div class="container mt-5">
-
-    <div class="card shadow-lg border-0 rounded-4">
-
-        <div class="card-header bg-info text-white rounded-top-4">
-
-            <h3>Detail Alumni</h3>
-
-        </div>
-
-        <div class="card-body">
-
-            <table class="table">
-
-                <tr>
-                    <th>Nama</th>
-                    <td>{{ $alumni->nama }}</td>
-                </tr>
-
-                <tr>
-                    <th>NIM</th>
-                    <td>{{ $alumni->nim }}</td>
-                </tr>
-
-                <tr>
-                    <th>Jurusan</th>
-                    <td>{{ $alumni->jurusan }}</td>
-                </tr>
-
-                <tr>
-                    <th>Angkatan</th>
-                    <td>{{ $alumni->angkatan }}</td>
-                </tr>
-
-                <tr>
-                    <th>Tahun Lulus</th>
-                    <td>{{ $alumni->tahun_lulus }}</td>
-                </tr>
-
-                <tr>
-                    <th>Email</th>
-                    <td>{{ $alumni->email }}</td>
-                </tr>
-
-                <tr>
-                    <th>Pekerjaan</th>
-                    <td>{{ $alumni->pekerjaan }}</td>
-                </tr>
-
-                <tr>
-                    <th>Alamat</th>
-                    <td>{{ $alumni->alamat }}</td>
-                </tr>
-
-            </table>
-
-            <a href="/alumni"
-               class="btn btn-secondary">
-               Kembali
-            </a>
-
-        </div>
-
+@section('content')
+<div class="d-flex align-items-center justify-content-between mb-3">
+    <div>
+        <h1 class="h4 fw-bold mb-1">Detail Alumni</h1>
+        <p class="text-muted mb-0">Informasi lengkap alumni</p>
     </div>
-
+    <div class="d-flex gap-2">
+        <a href="/alumni/{{ $alumni->id }}/edit" class="btn btn-outline-warning">
+            <i class="fas fa-edit me-1"></i> Edit
+        </a>
+        <a href="/alumni" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-1"></i> Kembali
+        </a>
+    </div>
 </div>
 
-</body>
-</html>
+<div class="card">
+    <div class="card-body">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <div class="text-muted small">Nama</div>
+                <div class="fw-semibold">{{ $alumni->nama }}</div>
+            </div>
+            <div class="col-md-6">
+                <div class="text-muted small">NIM</div>
+                <div class="fw-semibold">{{ $alumni->nim }}</div>
+            </div>
+            <div class="col-md-6">
+                <div class="text-muted small">Jurusan</div>
+                <div class="fw-semibold">{{ $alumni->jurusan }}</div>
+            </div>
+            <div class="col-md-3">
+                <div class="text-muted small">Angkatan</div>
+                <div class="fw-semibold">{{ $alumni->angkatan }}</div>
+            </div>
+            <div class="col-md-3">
+                <div class="text-muted small">Tahun Lulus</div>
+                <div class="fw-semibold">{{ $alumni->tahun_lulus }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+
