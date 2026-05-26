@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AlumniController;
 use App\Http\Controllers\PublicAlumniController;
 use App\Http\Controllers\AngkatanController;
+use App\Http\Controllers\DonasiAlumniController;
 use App\Http\Controllers\GaleriController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LowonganKerjaController;
@@ -38,6 +39,8 @@ Route::prefix('news')->name('news.')->group(function () {
 });
 
 Route::resource('angkatan', AngkatanController::class);
+
+Route::get('/donasi', [DonasiAlumniController::class, 'index'])->name('donasi.index');
 
 Route::prefix('lowongan-kerja')->name('lowongan.')->group(function () {
     Route::get('/', [LowonganKerjaController::class, 'index'])->name('index');

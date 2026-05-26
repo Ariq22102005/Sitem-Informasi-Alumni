@@ -39,6 +39,9 @@
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('angkatan.*') ? 'active fw-semibold' : '' }}" href="{{ route('angkatan.index') }}">Angkatan</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('donasi.*') ? 'active fw-semibold' : '' }}" href="{{ route('donasi.index') }}">Donasi</a>
+                        </li>
 
                         @auth
                         <li class="nav-item dropdown">

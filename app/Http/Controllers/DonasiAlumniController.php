@@ -16,11 +16,8 @@ class DonasiAlumniController extends Controller
         // Mengambil semua data donasi alumni dan mengurutkannya dari yang terbaru
         $donasi = DonasiAlumni::orderBy('created_at', 'desc')->get();
         
-        // Mengembalikan respon sukses dalam format JSON beserta HTTP Status Code 200 OK
-        return response()->json([
-            'status' => 'success',
-            'data' => $donasi
-        ], 200);
+        // Mengembalikan view dengan data donasi
+        return view('donasi.index', compact('donasi'));
     }
 
     /**

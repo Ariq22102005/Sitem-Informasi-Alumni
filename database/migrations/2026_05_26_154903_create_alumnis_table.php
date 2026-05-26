@@ -13,7 +13,19 @@ return new class extends Migration
     {
         Schema::create('alumnis', function (Blueprint $table) {
             $table->id();
+            $table->string('nama');
+            $table->string('nim')->unique();
+            $table->string('email')->nullable();
+            $table->string('no_hp')->nullable();
+            $table->string('program_studi');
+            $table->string('angkatan')->nullable();
+            $table->string('tahun_lulus')->nullable();
+            $table->decimal('ipk', 3, 2)->nullable();
+            $table->string('status_kerja')->nullable();
+            $table->string('perusahaan')->nullable();
+            $table->text('alamat')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

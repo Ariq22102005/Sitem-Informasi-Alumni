@@ -51,7 +51,7 @@
                         <td class="text-muted">{{ $loop->iteration }}</td>
                         <td class="fw-semibold">{{ $alumni->nama }}</td>
                         <td>{{ $alumni->nim }}</td>
-                        <td>{{ $alumni->jurusan }}</td>
+                        <td>{{ $alumni->program_studi }}</td>
                         <td>{{ $alumni->angkatan }}</td>
                         <td>{{ $alumni->tahun_lulus }}</td>
                         <td class="text-center text-nowrap">
