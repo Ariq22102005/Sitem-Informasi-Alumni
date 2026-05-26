@@ -15,6 +15,16 @@
 
 <div class="card">
     <div class="card-body">
+        @if($errors->any())
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    @foreach($errors->all() as $e)
+                        <li>{{ $e }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <form action="/alumni/{{ $alumni->id }}" method="POST" class="row g-3">
             @csrf
             @method('PUT')
@@ -28,9 +38,15 @@
                 <input type="text" name="nim" value="{{ $alumni->nim }}" class="form-control" required>
             </div>
             <div class="col-md-6">
-                <label class="form-label">Jurusan</label>
-                <input type="text" name="jurusan" value="{{ $alumni->jurusan }}" class="form-control" required>
+                <label class="form-label">Program Studi</label>
+                <input type="text" name="program_studi" value="{{ $alumni->program_studi }}" class="form-control" required>
             </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Email</label>
+                <input type="email" name="email" value="{{ $alumni->email }}" class="form-control" required>
+            </div>
+
             <div class="col-md-3">
                 <label class="form-label">Angkatan</label>
                 <input type="number" name="angkatan" value="{{ $alumni->angkatan }}" class="form-control" required>
@@ -38,6 +54,11 @@
             <div class="col-md-3">
                 <label class="form-label">Tahun Lulus</label>
                 <input type="number" name="tahun_lulus" value="{{ $alumni->tahun_lulus }}" class="form-control" required>
+            </div>
+
+            <div class="col-12">
+                <label class="form-label">Alamat (Opsional)</label>
+                <input type="text" name="alamat" value="{{ $alumni->alamat }}" class="form-control">
             </div>
 
             <div class="col-12 d-flex gap-2 pt-2">

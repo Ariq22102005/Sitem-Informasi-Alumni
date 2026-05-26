@@ -8,9 +8,11 @@
         </div>
         <div class="col-md-4 text-end">
             @auth
-                <a href="{{ route('news.create') }}" class="btn btn-primary">
-                    + Buat Berita
-                </a>
+                @if(Auth::user()->role === 'admin')
+                    <a href="{{ route('news.create') }}" class="btn btn-primary">
+                        + Buat Berita
+                    </a>
+                @endif
             @endauth
         </div>
     </div>

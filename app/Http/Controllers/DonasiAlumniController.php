@@ -11,12 +11,22 @@ class DonasiAlumniController extends Controller
      * Tampilkan daftar riwayat donasi.
      * 1. Ambil semua data donasi (READ)
      */
-    public function index()
+    public function index(Request $request)
     {
         // Mengambil semua data donasi alumni dan mengurutkannya dari yang terbaru
         $donasi = DonasiAlumni::orderBy('created_at', 'desc')->get();
-        
-        // Mengembalikan view dengan data donasi
+
+        // Jika dipanggil dari API, kembalikan JSON sesuai kebutuhan frontend.
+        // Frontend di `resources/views/donasi/index.blade.php` mengharapkan `response.data`.
+        if ($request->wantsJson() || $request->is('api/*')) {
+            return response()->json([
+                'status'  => 'success',
+                'message' => 'Data donasi berhasil dimuat!',
+                'data'    => $donasi,
+            ], 200);
+        }
+
+        // Untuk route web, tampilkan halaman.
         return view('donasi.index', compact('donasi'));
     }
 

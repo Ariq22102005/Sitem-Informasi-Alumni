@@ -31,13 +31,17 @@
                     <hr>
 
                     @auth
-                        @if(auth()->user()->id === $news->user_id || auth()->user()->is_admin)
+                        @if(Auth::user()->role === 'admin')
                             <div class="d-flex gap-2 mb-4">
-                                <a href="{{ route('news.edit', $news) }}" class="btn btn-warning">Edit</a>
+                                <a href="{{ route('news.edit', $news) }}" class="btn btn-warning">
+                                    <i class="fas fa-edit me-1"></i> Edit
+                                </a>
                                 <form action="{{ route('news.destroy', $news) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus?');" style="display:inline;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">Hapus</button>
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="fas fa-trash me-1"></i> Hapus
+                                    </button>
                                 </form>
                             </div>
                         @endif

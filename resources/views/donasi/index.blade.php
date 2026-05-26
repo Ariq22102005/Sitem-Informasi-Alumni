@@ -1,46 +1,39 @@
 @extends('layouts.app')
 
 @section('title', 'Donasi Alumni')
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Modul Donasi Alumni — PRJ-14</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+@section('content')
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         :root {
-            --cream: #FDF6EC;
-            --warm-white: #FFFBF5;
-            --amber: #E8A44A;
-            --amber-deep: #C8872A;
-            --amber-light: #F5C97A;
-            --teal: #2A7F6F;
-            --teal-light: #3DA08D;
-            --teal-pale: #E8F5F2;
+            --cream: var(--app-bg);
+            --warm-white: var(--app-surface);
+            --amber: var(--app-primary);
+            --amber-deep: var(--app-primary-2);
+            --amber-light: var(--app-primary);
+            --teal: var(--app-info);
+            --teal-light: var(--app-info);
+            --teal-pale: rgba(14,165,233,0.12);
             --red-soft: #E8504A;
             --red-pale: #FFF0EF;
-            --dark: #1A1A2E;
-            --text-body: #3D3D4E;
-            --text-muted: #8A8A9A;
-            --border: #EDE8E0;
+            --dark: var(--app-text);
+            --text-body: var(--app-text);
+            --text-muted: var(--app-muted);
+            --border: var(--app-border);
         }
 
         body {
-            font-family: 'DM Sans', sans-serif;
-            background: var(--cream);
-            color: var(--text-body);
+            font-family: 'Nunito', sans-serif;
+            background: var(--app-bg);
+            color: var(--app-text);
             min-height: 100vh;
             overflow-x: hidden;
         }
 
         /* Hero Header */
         .hero {
-            background: linear-gradient(135deg, var(--dark) 0%, #16213E 50%, #0F3460 100%);
+            background: linear-gradient(135deg, var(--amber) 0%, var(--amber-deep) 55%, var(--teal) 100%);
             position: relative;
             overflow: hidden;
             padding: 48px 40px 60px;
@@ -510,8 +503,6 @@
             .hero-ornament { display: none; }
         }
     </style>
-</head>
-<body>
 
     <!-- Hero -->
     <div class="hero">
@@ -602,9 +593,6 @@
             </div>
         </div>
     </div>
-
-    <footer>
-        <footer>Dibuat dengan <span>♥</span> oleh Mellinna Husadya · G1F024006</footer>
 
     <!-- Toast -->
     <div class="toast" id="toast"></div>
@@ -731,5 +719,4 @@
             });
         });
     </script>
-</body>
-</html>
+@endsection

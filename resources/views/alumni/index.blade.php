@@ -8,9 +8,13 @@
         <h1 class="h4 fw-bold mb-1">Data Alumni</h1>
         <p class="text-muted mb-0">Kelola data alumni universitas</p>
     </div>
-    <a href="/alumni/create" class="btn btn-primary">
-        <i class="fas fa-plus me-1"></i> Tambah Alumni
-    </a>
+    @auth
+        @if(Auth::user()->role === 'admin')
+            <a href="/alumni/create" class="btn btn-primary">
+                <i class="fas fa-plus me-1"></i> Tambah Alumni
+            </a>
+        @endif
+    @endauth
 </div>
 
 <div class="row g-3 mb-3">
@@ -58,16 +62,20 @@
                             <a href="/alumni/{{ $alumni->id }}" class="btn btn-sm btn-outline-primary" title="Detail">
                                 <i class="fas fa-eye"></i>
                             </a>
-                            <a href="/alumni/{{ $alumni->id }}/edit" class="btn btn-sm btn-outline-warning" title="Edit">
-                                <i class="fas fa-edit"></i>
-                            </a>
-                            <form action="/alumni/{{ $alumni->id }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus data alumni ini?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </form>
+                            @auth
+                                @if(Auth::user()->role === 'admin')
+                                    <a href="/alumni/{{ $alumni->id }}/edit" class="btn btn-sm btn-outline-warning" title="Edit">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <form action="/alumni/{{ $alumni->id }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus data alumni ini?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                @endif
+                            @endauth
                         </td>
                     </tr>
                 @empty

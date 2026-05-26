@@ -8,7 +8,11 @@
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    <a href="{{ route('angkatan.create') }}" class="btn btn-primary mb-3">+ Tambah Angkatan</a>
+    @auth
+        @if(Auth::user()->role === 'admin')
+            <a href="{{ route('angkatan.create') }}" class="btn btn-primary mb-3">+ Tambah Angkatan</a>
+        @endif
+    @endauth
 
     <table class="table table-bordered">
         <thead>
@@ -26,12 +30,16 @@
                 <td>{{ $angkatan->tahun }}</td>
                 <td>{{ $angkatan->nama_angkatan ?? '-' }}</td>
                 <td>
-                    <a href="{{ route('angkatan.edit', $angkatan->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                    <form action="{{ route('angkatan.destroy', $angkatan->id) }}" method="POST" style="display:inline">
-                        @csrf
-                        @method('DELETE')
-                        <button onclick="return confirm('Yakin hapus?')" class="btn btn-danger btn-sm">Hapus</button>
-                    </form>
+                    @auth
+                        @if(Auth::user()->role === 'admin')
+                            <a href="{{ route('angkatan.edit', $angkatan->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                            <form action="{{ route('angkatan.destroy', $angkatan->id) }}" method="POST" style="display:inline">
+                                @csrf
+                                @method('DELETE')
+                                <button onclick="return confirm('Yakin hapus?')" class="btn btn-danger btn-sm">Hapus</button>
+                            </form>
+                        @endif
+                    @endauth
                 </td>
             </tr>
             @endforeach

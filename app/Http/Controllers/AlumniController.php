@@ -37,8 +37,8 @@ class AlumniController extends Controller
     {
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
-            'nim' => 'required|string|unique:alumni,nim',
-            'email' => 'required|email|unique:alumni,email',
+            'nim' => 'required|string|unique:alumnis,nim',
+            'email' => 'required|email|unique:alumnis,email',
             'no_hp' => 'nullable|string|max:20',
             'program_studi' => 'required|string|max:255',
             'angkatan' => 'required|integer',
@@ -69,8 +69,8 @@ class AlumniController extends Controller
     {
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
-            'nim' => 'required|string|unique:alumni,nim,'.$alumni->id,
-            'email' => 'required|email|unique:alumni,email,'.$alumni->id,
+            'nim' => 'required|string|unique:alumnis,nim,'.$alumni->id,
+            'email' => 'required|email|unique:alumnis,email,'.$alumni->id,
             'no_hp' => 'nullable|string|max:20',
             'program_studi' => 'required|string|max:255',
             'angkatan' => 'required|integer',

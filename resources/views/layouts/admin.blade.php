@@ -36,6 +36,9 @@
                 <a href="{{ route('admin.pengumuman.index') }}" class="{{ request()->routeIs('admin.pengumuman.*') ? 'active' : '' }}">
                     <i class="fas fa-bullhorn me-2"></i> Pengumuman
                 </a>
+                <a href="{{ route('admin.donasi.index') }}" class="{{ request()->routeIs('admin.donasi.*') ? 'active' : '' }}">
+                    <i class="fas fa-hand-holding-heart me-2"></i> Donasi
+                </a>
                 <a href="{{ route('admin.tracer.index') }}" class="{{ request()->routeIs('admin.tracer.*') ? 'active' : '' }}">
                     <i class="fas fa-chart-line me-2"></i> Tracer
                 </a>

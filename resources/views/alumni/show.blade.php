@@ -9,9 +9,13 @@
         <p class="text-muted mb-0">Informasi lengkap alumni</p>
     </div>
     <div class="d-flex gap-2">
-        <a href="/alumni/{{ $alumni->id }}/edit" class="btn btn-outline-warning">
-            <i class="fas fa-edit me-1"></i> Edit
-        </a>
+        @auth
+            @if(Auth::user()->role === 'admin')
+                <a href="/alumni/{{ $alumni->id }}/edit" class="btn btn-outline-warning">
+                    <i class="fas fa-edit me-1"></i> Edit
+                </a>
+            @endif
+        @endauth
         <a href="/alumni" class="btn btn-outline-secondary">
             <i class="fas fa-arrow-left me-1"></i> Kembali
         </a>
@@ -30,8 +34,8 @@
                 <div class="fw-semibold">{{ $alumni->nim }}</div>
             </div>
             <div class="col-md-6">
-                <div class="text-muted small">Jurusan</div>
-                <div class="fw-semibold">{{ $alumni->jurusan }}</div>
+                <div class="text-muted small">Program Studi</div>
+                <div class="fw-semibold">{{ $alumni->program_studi }}</div>
             </div>
             <div class="col-md-3">
                 <div class="text-muted small">Angkatan</div>
@@ -40,6 +44,16 @@
             <div class="col-md-3">
                 <div class="text-muted small">Tahun Lulus</div>
                 <div class="fw-semibold">{{ $alumni->tahun_lulus }}</div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="text-muted small">Email</div>
+                <div class="fw-semibold">{{ $alumni->email }}</div>
+            </div>
+
+            <div class="col-12">
+                <div class="text-muted small">Alamat</div>
+                <div class="fw-semibold" style="white-space: pre-wrap;">{{ $alumni->alamat ?? '-' }}</div>
             </div>
         </div>
     </div>

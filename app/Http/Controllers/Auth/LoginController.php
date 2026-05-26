@@ -21,11 +21,18 @@ class LoginController extends Controller
     use AuthenticatesUsers;
 
     /**
-     * Where to redirect users after login.
-     *
-     * @var string
+     * Redirect users after login berdasarkan role.
      */
-    protected $redirectTo = '/home';
+    protected function redirectTo()
+    {
+        $role = auth()->user()->role ?? null;
+
+        if ($role === 'admin') {
+            return route('admin.dashboard');
+        }
+
+        return route('home');
+    }
 
     /**
      * Create a new controller instance.

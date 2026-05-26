@@ -22,12 +22,12 @@ class PublicAlumniController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required',
-            'nim' => 'required',
-            'program_studi' => 'required',
+            'nama' => 'required|string|max:255',
+            'nim' => 'required|string|max:255|unique:alumnis,nim',
+            'program_studi' => 'required|string|max:255',
             'angkatan' => 'required',
             'tahun_lulus' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:alumnis,email',
         ]);
 
         Alumni::create($request->only([
@@ -55,6 +55,16 @@ class PublicAlumniController extends Controller
     public function update(Request $request, string $id)
     {
         $alumni = Alumni::findOrFail($id);
+
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'nim' => 'required|string|max:255|unique:alumnis,nim,' . $alumni->id,
+            'program_studi' => 'required|string|max:255',
+            'angkatan' => 'required',
+            'tahun_lulus' => 'required',
+            'email' => 'required|email|unique:alumnis,email,' . $alumni->id,
+            'alamat' => 'nullable|string',
+        ]);
 
         $alumni->update($request->only([
             'nama', 'nim', 'program_studi', 'angkatan', 'tahun_lulus', 'email', 'alamat',

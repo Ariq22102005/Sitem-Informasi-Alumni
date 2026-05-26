@@ -15,6 +15,16 @@
 
 <div class="card">
     <div class="card-body">
+        @if($errors->any())
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    @foreach($errors->all() as $e)
+                        <li>{{ $e }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <form action="/alumni" method="POST" class="row g-3">
             @csrf
 
@@ -27,16 +37,26 @@
                 <input type="text" name="nim" class="form-control" required>
             </div>
             <div class="col-md-6">
-                <label class="form-label">Jurusan</label>
-                <input type="text" name="jurusan" class="form-control" required>
+                <label class="form-label">Program Studi</label>
+                <input type="text" name="program_studi" class="form-control" value="{{ old('program_studi') }}" required>
             </div>
             <div class="col-md-3">
                 <label class="form-label">Angkatan</label>
-                <input type="number" name="angkatan" class="form-control" required>
+                <input type="number" name="angkatan" class="form-control" value="{{ old('angkatan') }}" required>
             </div>
             <div class="col-md-3">
                 <label class="form-label">Tahun Lulus</label>
-                <input type="number" name="tahun_lulus" class="form-control" required>
+                <input type="number" name="tahun_lulus" class="form-control" value="{{ old('tahun_lulus') }}" required>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Email</label>
+                <input type="email" name="email" class="form-control" value="{{ old('email') }}" required>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Alamat (Opsional)</label>
+                <input type="text" name="alamat" class="form-control" value="{{ old('alamat') }}">
             </div>
 
             <div class="col-12 d-flex gap-2 pt-2">

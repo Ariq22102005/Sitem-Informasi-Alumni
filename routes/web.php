@@ -14,6 +14,7 @@ use App\Http\Controllers\PengumumanController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TracerController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\EnsureAdmin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -26,7 +27,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [NewsController::class, 'index'])->name('news.index');
 
 Route::prefix('news')->name('news.')->group(function () {
-    Route::middleware('auth')->group(function () {
+    Route::middleware(['auth', EnsureAdmin::class])->group(function () {
         Route::get('/create', [NewsController::class, 'create'])->name('create');
         Route::post('/', [NewsController::class, 'store'])->name('store');
         Route::get('/{news}/edit', [NewsController::class, 'edit'])->name('edit');
@@ -38,7 +39,11 @@ Route::prefix('news')->name('news.')->group(function () {
     Route::get('/{news}', [NewsController::class, 'show'])->name('show');
 });
 
-Route::resource('angkatan', AngkatanController::class);
+Route::resource('angkatan', AngkatanController::class)->only(['index']);
+
+Route::resource('angkatan', AngkatanController::class)
+    ->only(['create', 'store', 'edit', 'update', 'destroy'])
+    ->middleware(['auth', EnsureAdmin::class]);
 
 Route::get('/donasi', [DonasiAlumniController::class, 'index'])->name('donasi.index');
 
@@ -47,7 +52,11 @@ Route::prefix('lowongan-kerja')->name('lowongan.')->group(function () {
     Route::get('/{lowongan}', [LowonganKerjaController::class, 'show'])->name('show');
 });
 
-Route::resource('alumni', PublicAlumniController::class);
+Route::resource('alumni', PublicAlumniController::class)->only(['index', 'show']);
+
+Route::resource('alumni', PublicAlumniController::class)
+    ->only(['create', 'store', 'edit', 'update', 'destroy'])
+    ->middleware(['auth', EnsureAdmin::class]);
 
 /*
 |--------------------------------------------------------------------------
@@ -55,7 +64,7 @@ Route::resource('alumni', PublicAlumniController::class);
 |--------------------------------------------------------------------------
 */
 
-Route::middleware('auth')
+Route::middleware(['auth', EnsureAdmin::class])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
@@ -88,6 +97,7 @@ Route::middleware('auth')
         Route::resource('galeri', GaleriController::class);
         Route::resource('pengumuman', PengumumanController::class);
         Route::resource('users', UserController::class);
+        Route::resource('donasi', \App\Http\Controllers\AdminDonasiController::class);
 
         Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
         Route::put('/settings/profile', [SettingsController::class, 'updateProfile'])->name('settings.profile');
